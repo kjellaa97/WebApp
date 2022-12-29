@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>이벤트 테스트</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+<script>
+// 여기에 위치해 있으면 버튼이 작동이 안됨. 왜냐면 시기적으로 얘가 먼저 작동되는데 밑에 btn1도 나와있지 않아 반영이 안됨
+//$('#btn1').click(btnHandler);	// 함수의 이름을 호출하는 것은 주소를 호출하는 효과가 있음. 그래서 btnHandler뒤에 괄호가 없는거임 
+
+$(function(){			//ready 되었을 때 돌아가는 함수, 즉 객체가 다 준비됨. 따라서 작동됨!
+	$('#btn1').click(btnHandler);		// 여기서 $는 객체의 참조를 구하는 방법
+	$('#div1').mouseover(mouseHandler);
+	//$('#div2 > a').click(linkHandler);					//div2 아래쪽에 있는 a 태그 
+	
+	
+	// div3 태그 안에 a 태그를 한개 동적으로 (실행시간에 코드를 사용해서 더 추가) 추가한 후에 이벤트를 테스트 해보세요 . 
+	//$('#div2').on('click','a',linkHandler)	//a 태그를 클릭 햇을때 이 함수 'div2'가 돌아가도록 한다
+	//만약 이름없는 함수를 준다면?
+	$('#div2').on('click', 'a', function(){
+		console.log('익명함수로 이벤트 핸들러 정의하기');
+		//여기서만 쓸거며 그냥 바로 안에다가 정의해도 됨	
+	});		
+			
+	$('#div2').append('<p><a>두번째 링크</a></p>');
+	$('#div2').append('<p><a>세번째 링크</a></p>');
+})
+
+function btnHandler()
+{
+	alert('버튼 클릭됨');	
+}
+
+function mouseHandler()
+{
+	console.log('마우스오버 확인됨');
+}
+
+function linkHandler()
+{
+	console.log('링크 클릭됨')	
+}
+</script>
+
+</head>
+<body>
+<p>
+<div> <button id="btn1" type = "button"> 테스트 </button></div>
+<!-- onclick을 사용한 방법  <div> <button type = "button" onclick= "btnHandler()"";> 테스트 </button></div> -->
+<p>
+<div id = "div1">마우스오버 이벤트 테스트</div>
+<p>
+<div id = "div2">
+	<a> 여기는 링크 </a>
+</div>
+
+</body>
+</html>

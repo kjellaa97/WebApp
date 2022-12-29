@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>폼 태그 다루기</title>
+</head>
+<body>
+
+<style>
+	li {display: inline;} <!-- 이러면 list가 블럭요소지만 한행에 나옴-->
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+<script> 
+
+function delfruit()
+	{
+		var ser = $('#delform').serialize();	//serialize하면 ser로 체크한것만 넘어감
+		$.ajax({
+			url: 'form_proc.jsp',
+			method: 'post',
+			data: ser,
+			dataType: 'json',
+			cache: false,
+			success: function(res){
+				//alert(res.deleted)
+				if(res.deleted) deleteSelected();
+			
+			},
+			error: function(xhr, status, err )	{
+				alert(err);
+			}		
+		});
+		return false; 
+		
+	}
+
+
+</script>
+<script>
+
+function deleteSelected()
+{	//$('input: checkbox'). prop('checked',true) // prop은 속성을 적용하는것, 'checked'라는 속성에 true를 넣어줌
+	//alert($('input:checkbox').is(':checked')); // 체크 됏는지 확인방법
+	$('input[type=checkbox]').each(function(index, item){ //체크박스는 리스트처럼 여러개 잇음, 그 리스트 안에 있는 하나 고르는게 .each 즉, 제크박스가 
+		//console.log(item.checked);
+		//console.log(item);
+		if(item.checked){
+			//item.remove(); 이렇게 하면 체크박스만 사라지고 값(과일 이름)은 남음
+			var v = $(item).val(); //item 을 jQuery 객체로 만들어줘야지 val이 돌아감, 그 전엔 표준 체크박스 객체 였음
+			$('div#'+ v).remove() //이게 div태그의 아이디가 댐
+		}
+	});
+	return false;
+}
+</script>
+
+<div>
+	<form id="delform"  onsubmit="return delfruit();">
+		<ul>
+			<div id ="Apple">
+					<input type="checkbox" name="fruits" value="Apple"> 
+					<li>Apple</li>
+			</div>
+			<div id ="Pineapple">
+					<input type="checkbox" name="fruits" value = "Pineapple"> 
+					<li>Pineapple</li>
+			</div>
+			<div id= "Orange">
+					<input type="checkbox" name="fruits" value = "Orange"> 
+					<li>Orange</li>
+			</div>
+			<div id= "Kiwi">
+					<input type="checkbox" name="fruits" value = "Kiwi"> 
+					<li> Kiwi </li>
+			</div>
+		</ul>
+		<div><button type="submit" >삭제</button></div>
+		
+	</form>
+
+</div>
+<button type="button" onclick="test();"> 테스트</button>
+	
+</body>
+</html>
